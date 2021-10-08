@@ -31,23 +31,46 @@ function outputtxt(text, variable = "") {
   document.getElementById('output').value += timestamp + " — " + text + " " + variable + "\n";
 };
 
-function getImg(imageURL){
-  $.ajax({
-  url: imageURL,
-  method: "GET",
-  headers: {
-    'access-control-allow-origin': '*',
-    'access-control-expose-headers': 'server,date,content-type,content-length,connection,x-powered-by,cache-control,content-encoding,x-frontend,strict-transport-security,access-control-expose-headers,alt-svc,x-final-url,access-control-allow-origin,Warning',
-    'cache-control': 'no-store',
-    'content-encoding': 'gzip',
-    'content-type': 'image/jpeg',
-    'strict-transport-security': 'max-age=15768000'
-    }
-  }).then(response => {
-      console.log(response);
-  }).catch(error => {
-      console.log(error);
-  })
+async function getCSolve(imgUrl){
+  var img = document.createElement("img");
+  img.src = "https://thingproxy.freeboard.io/fetch/"+imgUrl;
+  const codemap = " 24578acdehkmnpqsuvxyz";
+  const session = new onnx.InferenceSession({
+      backendHint: "cpu"
+  });
+  const session2 = new onnx.InferenceSession({
+      backendHint: "cpu"
+  });
+  await session.loadModel("models/captcha_model.onnx");
+  await session2.loadModel("models/ctc_model.onnx");
+
+  var oc = document.createElement("canvas"),
+      octx = oc.getContext("2d");
+  const width = 128;
+  const height = 64;
+  oc.width = width;
+  oc.height = height;
+  octx.drawImage(img, 0, 0, oc.width, oc.height);
+  // step 2
+  input = Float32Array.from(octx.getImageData(0, 0, width, height).data);
+  // Run model with Tensor inputs and get the result.
+  const inputTensor = new onnx.Tensor(input, "float32", [
+      1,
+      4 * width * height
+  ]);
+  const outputTensor = (await session.run([inputTensor])).get("argmax");
+  outputTensor.type = "float32";
+  outputTensor.internalTensor.type = "float32";
+  const outputMap2 = await session2.run([outputTensor]);
+  const outputData2 = outputMap2.values().next().value.data;
+  const captcha = Array.from(outputTensor.data)
+      .filter(function(e, i) {
+          return Array.from(outputData2.values())[i] > 0;
+      })
+      .map((x, i) => codemap[x])
+      .join("");
+  // outputtxt(captcha)
+  return captcha;
 
 }
 
@@ -113,7 +136,8 @@ function checktoken(access_token) {
   
 
 function getValues() {
-  var captcha = getImg('https://vk.com/captcha.php?sid=931832507592&s=1');
+  var captcha = getCSolve('https://vk.com/captcha.php?sid=931832507592&s=1');
+  outputtxt(captcha);
   globalThis.access_token = document.getElementById('access_token').value;
   globalThis.owner_id = document.getElementById('owner_id').value;
   globalThis.post_id = document.getElementById('post_id').value;
