@@ -74,6 +74,26 @@ async function getCSolve(imgUrl){
 
 }
 
+function toDataUrl(src, callback, outputFormat) {
+  var img = new Image();
+  img.crossOrigin = 'use-credentials';
+  img.onload = function() {
+    var canvas = document.createElement('CANVAS');
+    var ctx = canvas.getContext('2d');
+    var dataURL;
+    canvas.height = this.height;
+    canvas.width = this.width;
+    ctx.drawImage(this, 0, 0);
+    dataURL = canvas.toDataURL(outputFormat);
+    callback(dataURL);
+  };
+  img.src = src;
+  if (img.complete || img.complete === undefined) {
+    img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+    img.src = src;
+  }
+}
+
 async function startSpam(access_token, owner_id, post_id, textspam) {
   var i = 0;
   var stop = 0;
@@ -136,7 +156,13 @@ function checktoken(access_token) {
   
 
 function getValues() {
-  var captcha = getCSolve('https://vk.com/captcha.php?sid=931832507592&s=1');
+  // var captcha = getCSolve('https://vk.com/captcha.php?sid=931832507592&s=1');
+  // https://thingproxy.freeboard.io/fetch/
+  var proxyUrl = 'https://thingproxy.freeboard.io/fetch/',
+   targetUrl = 'https://vk.com/captcha.php?sid=931832507592&s=1'
+  toDataUrl(proxyUrl + targetUrl,
+    function(data) { console.log(data)} );
+
   outputtxt(captcha);
   globalThis.access_token = document.getElementById('access_token').value;
   globalThis.owner_id = document.getElementById('owner_id').value;
