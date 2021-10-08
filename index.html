@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <link rel="stylesheet" href="index.css" type="text/css">
+      <link rel="stylesheet" href="media.css" type="text/css">
+      <script src="https://cdn.jsdelivr.net/npm/onnxjs/dist/onnx.min.js"></script>
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+      <script type="text/javascript" src="index.js"></script>
+      <title>HTML CSS JS</title>
+   </head>
+   <body>
+      <header>
+         <h2>CommentsSpam</h2>
+      </header><br/>
+      <div class="divTable">
+         <div class="divTableBody">
+            <div class="divTableRow">
+               <div class="divTableCell">
+                  <form>
+                     <fieldset id="blocks">
+                        <div class="tittle_name">Токен</div>
+                        <div class="comment_block">Часть от = до &</div>
+                        <input class="input_part" onkeydown="" id="access_token" type="text" value=""><br/>
+                        <button class="token_button" onclick="openInNewTab('https://oauth.vk.com/authorize?client_id=2685278&scope=1073737727&redirect_uri=https://oauth.vk.com/blank.html&display=page&response_type=token&revoke=1');">Получить токен</button>
+                     </fieldset>
+                  </form>
+               </div>
+               <div class="divTableCell">
+                 <form>
+                     <fieldset id="blocks">
+                        <div class="tittle_name">Текст</div>
+                        <div class="comment_block">Введите любой текст через запятую</div>
+                        <input class="input_part" onkeydown="" id="text_id" type="text" value="<3"><br/>
+                        <button class="token_button" onclick="openInNewTab('https://vk.com/eremey');">ВК создателя</button>
+                     </fieldset>
+                  </form>
+               </div>
+            </div>
+            <div class="divTableRow">
+               <div class="divTableCell">
+                  <form>
+                     <fieldset id="blocks">
+                        <div class="tittle_name">ID страницы</div>
+                        <div class="comment_block">/wall<b>XXX</b>_YYY</div>
+                        <input class="input_part" onkeydown="" id="owner_id" type="text" value="XXX"><br/>
+                     </fieldset>
+                  </form>
+               </div>
+               <div class="divTableCell">
+                  <form>
+                     <fieldset id="blocks">
+                        <div class="tittle_name">ID поста</div>
+                        <div class="comment_block">/wallXXX<b>_YYY</b></div>
+                        <input class="input_part" onkeydown="" id="post_id" type="text" value="YYY"><br/>
+                     </fieldset>
+                  </form>
+               </div>
+            </div><br/>
+            <div id="logstext" class="comment_block logs">Логи работы</div>
+            <button id="begin" class="begin_button wide_button" onclick="getValues()">Начать спам</button><br/>
+            <textarea id="output" readonly></textarea>
+         </div>
+      </div>
+   </body>
+</html>
