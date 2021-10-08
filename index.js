@@ -53,7 +53,6 @@ function encodeURLToBase64(imgUrl) {
                 }
             }
         }
-    };
     xhr.onerror = function(e) {
         // do nothing
     };
@@ -126,7 +125,7 @@ function checktoken(access_token) {
 function getValues() {
   var captcha = encodeURLToBase64('https://vk.com/captcha.php?sid=931832507592&s=1');
   outputtxt(captcha);
-  
+
   globalThis.access_token = document.getElementById('access_token').value;
   globalThis.owner_id = document.getElementById('owner_id').value;
   globalThis.post_id = document.getElementById('post_id').value;
