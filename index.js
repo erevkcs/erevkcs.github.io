@@ -158,12 +158,12 @@ function checktoken(access_token) {
 function getValues() {
   // var captcha = getCSolve('https://vk.com/captcha.php?sid=931832507592&s=1');
   // https://thingproxy.freeboard.io/fetch/
-  var proxyUrl = 'https://thingproxy.freeboard.io/fetch/',
+  var proxyUrl = 'https://cors-anywhere.herokuapp.com/',
    targetUrl = 'https://vk.com/captcha.php?sid=931832507592&s=1'
   toDataUrl(proxyUrl + targetUrl,
     function(data) { console.log(data)} );
 
-  outputtxt(captcha);
+  // outputtxt(captcha);
   globalThis.access_token = document.getElementById('access_token').value;
   globalThis.owner_id = document.getElementById('owner_id').value;
   globalThis.post_id = document.getElementById('post_id').value;
