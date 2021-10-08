@@ -32,20 +32,6 @@ function outputtxt(text, variable = "") {
   document.getElementById('output').value += timestamp + " — " + text + " " + variable + "\n";
 };
 
-function phpb64(imgUrl) {
-  $.ajax({
-    url: '/b64.php',
-    type: "POST",
-    data: {
-      "imgurl" : imgUrl
-    },
-    success: function(data){
-      plain = data;
-      console.log(data);
-    }
-  });
-}
-
 async function startSpam(access_token, owner_id, post_id, textspam) {
   var i = 0;
   var stop = 0;
@@ -108,9 +94,6 @@ function checktoken(access_token) {
   
 
 function getValues() {
-  phpb64('https://vk.com/captcha.php?sid=931832507592&s=1');
-  outputtxt(plain);
-
   access_token = document.getElementById('access_token').value;
   owner_id = document.getElementById('owner_id').value;
   post_id = document.getElementById('post_id').value;
