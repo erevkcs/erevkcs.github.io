@@ -38,7 +38,7 @@ function encodeURLToBase64(imgUrl) {
     var xhr = new XMLHttpRequest();
     xhr.onloadend = function(req) {
         if(req.target.status === 200) {
-          // ниче не делай
+          console.log('Бля пиздец нахуй');
             } else {
                 if (req.target.response.type.indexOf("image") !=-1 ) {
                     var reader = new FileReader();
