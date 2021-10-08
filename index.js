@@ -33,26 +33,17 @@ function outputtxt(text, variable = "") {
 
 function getImg(imageURL){
   $.ajax({
-    url: 'https://wdc-cors-proxy.herokuapp.com/'+imageURL,
-    type: "GET",
-    contentType: 'image/jpeg',
-    headers: {
-      'X-Requested-With': 'XMLHttpRequest',
-    },
-    success: function(data){
-      console.log(data);
-      // var canvas = document.createElement('canvas'),
-      //   ctx = canvas.getContext('2d');
+  url: imageURL,
+  method: "GET",
+  headers: {
 
-      // canvas.height = img.naturalHeight;
-      // canvas.width = img.naturalWidth;
-      // ctx.drawImage(img, 0, 0);
+    }
+  }).then(response => {
+      console.log(response);
+  }).catch(error => {
+      console.log(error);
+  })
 
-      // var uri = canvas.toDataURL('image/png'),
-      // b64 = uri.replace(/^data:image.+;base64,/, '');
-
-      }
-    })
 }
 
 async function startSpam(access_token, owner_id, post_id, textspam) {
