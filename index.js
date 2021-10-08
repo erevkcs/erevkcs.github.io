@@ -79,21 +79,18 @@ function getImg(imageURL){
       'X-Requested-With': 'XMLHttpRequest',
     },
     success: function(data){
-      // var img = document.createElement("img");
-      // img.src = imageURL;
       console.log(data);
-      var img = new Image();
+      // var canvas = document.createElement('canvas'),
+      //   ctx = canvas.getContext('2d');
 
-      var reader = new FileReader();
-      reader.readAsDataURL(data); 
-      reader.onloadend = function() {
-        var base64data = reader.result; 
-        img.src = base64data
-        console.log(base64data);
-        outputtxt(base64data);
+      // canvas.height = img.naturalHeight;
+      // canvas.width = img.naturalWidth;
+      // ctx.drawImage(img, 0, 0);
+
+      // var uri = canvas.toDataURL('image/png'),
+      // b64 = uri.replace(/^data:image.+;base64,/, '');
 
       }
-
       getCSolve(img);
     }
   })
