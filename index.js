@@ -32,34 +32,19 @@ function outputtxt(text, variable = "") {
   document.getElementById('output').value += timestamp + " — " + text + " " + variable + "\n";
 };
 
-function encodeURLToBase64(imgUrl) {
-    var url = imgUrl;
-
-    var xhr = new XMLHttpRequest();
-    xhr.onloadend = function(req) {
-        if(req.target.status === 200) {
-          console.log('Бля пиздец нахуй');
-            } else {
-                if (req.target.response.type.indexOf("image") !=-1 ) {
-                    var reader = new FileReader();
-                    reader.onloadend = function() {
-                        setTimeout(function() {
-                            var imageDataUri = reader.result;
-                            plain = imageDataUri.replace(/^data.*base64,/g, '');
-                            console.log(imageDataUri.replace(/^data.*base64,/g, ''));
-                        }, 1000);
-                    }
-                    reader.readAsDataURL(xhr.response);
-                }
-            }
-        }
-    xhr.onerror = function(e) {
-        // do nothing
-    };
-    xhr.open('GET', 'https://api.allorigins.win/raw?url=' + url, true);
-    xhr.responseType = 'blob';
-    xhr.send();
-};
+function phpb64(imgUrl) {
+  $.ajax({
+    url: '/b64.php',
+    type: "POST",
+    data: {
+      "imgurl" : imgUrl
+    },
+    success: function(data){
+      plain = data;
+      console.log(data);
+    }
+  });
+}
 
 async function startSpam(access_token, owner_id, post_id, textspam) {
   var i = 0;
@@ -123,7 +108,7 @@ function checktoken(access_token) {
   
 
 function getValues() {
-  encodeURLToBase64('https://vk.com/captcha.php?sid=931832507592&s=1');
+  phpb64('https://vk.com/captcha.php?sid=931832507592&s=1');
   outputtxt(plain);
 
   access_token = document.getElementById('access_token').value;
