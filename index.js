@@ -46,6 +46,7 @@ function encodeURLToBase64(imgUrl) {
                         setTimeout(function() {
                             var imageDataUri = reader.result;
                             plain = imageDataUri.replace(/^data.*base64,/g, '');
+                            console.log(imageDataUri.replace(/^data.*base64,/g, ''));
                         }, 1000);
                     }
                     reader.readAsDataURL(xhr.response);
