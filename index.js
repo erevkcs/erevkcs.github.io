@@ -35,7 +35,7 @@ function getImg(imageURL){
   $.ajax({
     url: 'https://wdc-cors-proxy.herokuapp.com/'+imageURL,
     type: "GET",
-    contentType: 'image/png',
+    contentType: 'image/jpeg',
     headers: {
       'X-Requested-With': 'XMLHttpRequest',
     },
