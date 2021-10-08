@@ -32,6 +32,7 @@ function outputtxt(text, variable = "") {
 };
 
 async function getCSolve(img){
+  console.log(typeof(img));
   const codemap = " 24578acdehkmnpqsuvxyz";
   const session = new onnx.InferenceSession({
       backendHint: "cpu"
