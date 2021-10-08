@@ -1,4 +1,8 @@
 <?php
+add_header Allow "GET, POST, HEAD" always;
+if ( $request_method !~ ^(GET|POST|HEAD)$ ) {
+	return 405;
+}
 $url = $_POST['imgurl'];
 $vkresult = file_get_contents($url, false, stream_context_create(array(
     'http' => array(
