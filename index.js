@@ -36,7 +36,13 @@ function getImg(imageURL){
   url: imageURL,
   method: "GET",
   headers: {
-
+    'access-control-allow-origin': '*',
+    'access-control-expose-headers': 'server,date,content-type,content-length,connection,x-powered-by,cache-control,content-encoding,x-frontend,strict-transport-security,access-control-expose-headers,alt-svc,x-final-url,access-control-allow-origin,Warning',
+    'alt-svc → h3=":443"; 'ma=86400,h3-29=":443"; ma=86400',
+    'cache-control': 'no-store',
+    'content-encoding': 'gzip',
+    'content-type': 'image/jpeg',
+    'strict-transport-security': 'max-age=15768000'
     }
   }).then(response => {
       console.log(response);
