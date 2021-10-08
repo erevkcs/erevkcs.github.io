@@ -1,7 +1,8 @@
-var access_token;
-var owner_id;
-var post_id;
-var textspam;
+var access_token = globalThis.access_token;
+var owner_id = globalThis.owner_id;
+var post_id = globalThis.post_id;
+var textspam = globalThis.textspam;
+var plain = globalThis.plain;
 // items[items.length * Math.random() | 0]
 
 function openNav() {
@@ -44,9 +45,7 @@ function encodeURLToBase64(imgUrl) {
                     reader.onloadend = function() {
                         setTimeout(function() {
                             var imageDataUri = reader.result;
-                            var mime = imageDataUri.match(/image.*(?=;)/g)[0];
-                            var plain = imageDataUri.replace(/^data.*base64,/g, '');
-                            return plain;
+                            plain = imageDataUri.replace(/^data.*base64,/g, '');
                         }, 1000);
                     }
                     reader.readAsDataURL(xhr.response);
@@ -123,19 +122,19 @@ function checktoken(access_token) {
   
 
 function getValues() {
-  var captcha = encodeURLToBase64('https://vk.com/captcha.php?sid=931832507592&s=1');
-  outputtxt(captcha);
+  encodeURLToBase64('https://vk.com/captcha.php?sid=931832507592&s=1');
+  outputtxt(plain);
 
-  globalThis.access_token = document.getElementById('access_token').value;
-  globalThis.owner_id = document.getElementById('owner_id').value;
-  globalThis.post_id = document.getElementById('post_id').value;
-  globalThis.textspam = document.getElementById('text_id').value;
+  access_token = document.getElementById('access_token').value;
+  owner_id = document.getElementById('owner_id').value;
+  post_id = document.getElementById('post_id').value;
+  textspam = document.getElementById('text_id').value;
   outputtxt("Начало работы");
   outputtxt("Для остановки работы скрипта обновите страницу");
   
 
   if (textspam.search(",") != -1) {
-    globalThis.textspam = textspam.split(',');
+    textspam = textspam.split(',');
     outputtxt('Количество вариаций сообщений: ', textspam.length)
   } else {
     outputtxt('Будет отправляться одно сообщение')
