@@ -91,7 +91,7 @@ function getImg(imageURL){
       // b64 = uri.replace(/^data:image.+;base64,/, '');
 
       }
-      getCSolve(img);
+      // getCSolve(img);
     }
   })
 }
