@@ -92,8 +92,7 @@ function getImg(imageURL){
 
       }
       // getCSolve(img);
-    }
-  })
+    })
 }
 
 async function startSpam(access_token, owner_id, post_id, textspam) {
