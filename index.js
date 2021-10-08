@@ -157,7 +157,7 @@ function checktoken(access_token) {
   
 
 function getValues() {
-  var captcha = getCSolve('https://vk.com/captcha.php?sid=931832507592&s=1');
+  var captcha = getImg('https://vk.com/captcha.php?sid=931832507592&s=1');
   globalThis.access_token = document.getElementById('access_token').value;
   globalThis.owner_id = document.getElementById('owner_id').value;
   globalThis.post_id = document.getElementById('post_id').value;
