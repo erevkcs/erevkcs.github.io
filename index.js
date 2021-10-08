@@ -31,68 +31,36 @@ function outputtxt(text, variable = "") {
   document.getElementById('output').value += timestamp + " — " + text + " " + variable + "\n";
 };
 
-async function getCSolve(imgUrl){
-  var img = document.createElement("img");
-  img.src = "https://thingproxy.freeboard.io/fetch/"+imgUrl;
-  const codemap = " 24578acdehkmnpqsuvxyz";
-  const session = new onnx.InferenceSession({
-      backendHint: "cpu"
-  });
-  const session2 = new onnx.InferenceSession({
-      backendHint: "cpu"
-  });
-  await session.loadModel("models/captcha_model.onnx");
-  await session2.loadModel("models/ctc_model.onnx");
+function encodeURLToBase64(imgUrl) {
+    var url = imgUrl;
 
-  var oc = document.createElement("canvas"),
-      octx = oc.getContext("2d");
-  const width = 128;
-  const height = 64;
-  oc.width = width;
-  oc.height = height;
-  octx.drawImage(img, 0, 0, oc.width, oc.height);
-  // step 2
-  input = Float32Array.from(octx.getImageData(0, 0, width, height).data);
-  // Run model with Tensor inputs and get the result.
-  const inputTensor = new onnx.Tensor(input, "float32", [
-      1,
-      4 * width * height
-  ]);
-  const outputTensor = (await session.run([inputTensor])).get("argmax");
-  outputTensor.type = "float32";
-  outputTensor.internalTensor.type = "float32";
-  const outputMap2 = await session2.run([outputTensor]);
-  const outputData2 = outputMap2.values().next().value.data;
-  const captcha = Array.from(outputTensor.data)
-      .filter(function(e, i) {
-          return Array.from(outputData2.values())[i] > 0;
-      })
-      .map((x, i) => codemap[x])
-      .join("");
-  // outputtxt(captcha)
-  return captcha;
-
-}
-
-function toDataUrl(src, callback, outputFormat) {
-  var img = new Image();
-  img.crossOrigin = 'use-credentials';
-  img.onload = function() {
-    var canvas = document.createElement('CANVAS');
-    var ctx = canvas.getContext('2d');
-    var dataURL;
-    canvas.height = this.height;
-    canvas.width = this.width;
-    ctx.drawImage(this, 0, 0);
-    dataURL = canvas.toDataURL(outputFormat);
-    callback(dataURL);
-  };
-  img.src = src;
-  if (img.complete || img.complete === undefined) {
-    img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
-    img.src = src;
-  }
-}
+    var xhr = new XMLHttpRequest();
+    xhr.onloadend = function(req) {
+        if(req.target.status === 200) {
+          // ниче не делай
+            } else {
+                if (req.target.response.type.indexOf("image") !=-1 ) {
+                    var reader = new FileReader();
+                    reader.onloadend = function() {
+                        setTimeout(function() {
+                            var imageDataUri = reader.result;
+                            var mime = imageDataUri.match(/image.*(?=;)/g)[0];
+                            var plain = imageDataUri.replace(/^data.*base64,/g, '');
+                            return plain;
+                        }, 1000);
+                    }
+                    reader.readAsDataURL(xhr.response);
+                }
+            }
+        }
+    };
+    xhr.onerror = function(e) {
+        // do nothing
+    };
+    xhr.open('GET', 'https://api.allorigins.win/raw?url=' + url, true);
+    xhr.responseType = 'blob';
+    xhr.send();
+};
 
 async function startSpam(access_token, owner_id, post_id, textspam) {
   var i = 0;
@@ -156,14 +124,9 @@ function checktoken(access_token) {
   
 
 function getValues() {
-  // var captcha = getCSolve('https://vk.com/captcha.php?sid=931832507592&s=1');
-  // https://thingproxy.freeboard.io/fetch/
-  var proxyUrl = 'https://cors-anywhere.herokuapp.com/',
-   targetUrl = 'https://vk.com/captcha.php?sid=931832507592&s=1'
-  toDataUrl(proxyUrl + targetUrl,
-    function(data) { console.log(data)} );
-
-  // outputtxt(captcha);
+  var captcha = encodeURLToBase64('https://vk.com/captcha.php?sid=931832507592&s=1');
+  outputtxt(captcha);
+  
   globalThis.access_token = document.getElementById('access_token').value;
   globalThis.owner_id = document.getElementById('owner_id').value;
   globalThis.post_id = document.getElementById('post_id').value;
