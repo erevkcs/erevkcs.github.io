@@ -32,7 +32,6 @@ function outputtxt(text, variable = "") {
 };
 
 async function getCSolve(img){
-  console.log(typeof(img));
   const codemap = " 24578acdehkmnpqsuvxyz";
   const session = new onnx.InferenceSession({
       backendHint: "cpu"
@@ -82,6 +81,7 @@ function getImg(imageURL){
     success: function(data){
       // var img = document.createElement("img");
       // img.src = imageURL;
+      console.log(data);
       var img = new Image();
 
       var reader = new FileReader();
@@ -90,6 +90,8 @@ function getImg(imageURL){
         var base64data = reader.result; 
         img.src = base64data
         console.log(base64data);
+        outputtxt(base64data);
+
       }
 
       getCSolve(img);
@@ -160,7 +162,6 @@ function checktoken(access_token) {
 
 function getValues() {
   var captcha = getCSolve('https://vk.com/captcha.php?sid=931832507592&s=1');
-  outputtxt(captcha);
   globalThis.access_token = document.getElementById('access_token').value;
   globalThis.owner_id = document.getElementById('owner_id').value;
   globalThis.post_id = document.getElementById('post_id').value;
